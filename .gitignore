@@ -8,8 +8,8 @@ build/
 # Directory created by dartdoc
 doc/api/
 
-
-
 .idea/
 
 native_libs/call_dart_from_cpp/
+
+pubspec.lock

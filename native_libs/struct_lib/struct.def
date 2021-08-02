@@ -1,0 +1,6 @@
+LIBRARY struct_lib
+EXPORTS
+   getName
+   reverse
+   create_coordinate
+   create_place
