@@ -33,7 +33,6 @@ class Delphi {
 
     final lib = DynamicLibrary.open(libFileName);
 
-
     final applyDartMethod = lib.lookupFunction<
         Delphi_ApplyMethod,
         Dart_ApplyMethod>('ApplyDartMethod');
@@ -46,7 +45,6 @@ class Delphi {
   }
 
   Delphi._internals(this.applyDartFunction, this._callNative);
-
 
   String callNative(int arg, String text) {
     final utfText = text.toNativeUtf8();

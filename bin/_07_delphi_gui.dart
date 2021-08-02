@@ -9,89 +9,17 @@ void main(List<String> arguments) async {
   final delphiRunner = DelphiRunner();
 
   delphiRunner.run((msg) {
-    switch (msg.runtimeType) {
-      case DelphiMessage:
-        final delphiMsg = msg as DelphiMessage;
-        print('DelphiMessage: ${delphiMsg.message}');
-        break;
-
-      case ServerCreate:
-        final event = msg as ServerCreate;
-        print('Create server. ${event.host}:${event.port}');
-        break;
-
-      case ServerClose:
-        print('Server close.');
-        break;
-
-      case ClientConnect:
-        final client = msg as ClientConnect;
-        print('Connect from: ${client.remoteAddress}:${client.remotePort}');
-        break;
-
-      case ClientClose:
-        print('Client close');
-        break;
-
-      case AppRun:
-        print('App is running.');
-        break;
-
-      case AppClose:
-        print('App is close.');
-        break;
-
-      default:
-        print(msg);
+    if (msg is Event) {
+      print(msg);
     }
   });
 }
 
-typedef C_DelphiFunc = ffi.Void Function();
-typedef Dart_CXXFunc = void Function();
-
-final HOST = InternetAddress.loopbackIPv6;
-const PORT = 7654;
-
-class Event {}
-
-class ServerCreate {
-  final InternetAddress host;
-  final int port;
-
-  ServerCreate(this.host, this.port);
-}
-
-class AppRun {}
-
-class AppClose {}
-
-class ClientConnect {
-  final String remoteAddress;
-  final int remotePort;
-
-  ClientConnect(Socket client)
-      : remotePort = client.remotePort,
-        remoteAddress = client.remoteAddress.address;
-}
-
-class ServerClose {}
-class ClientClose {}
-
-class DelphiMessage {
-  final String message;
-
-  DelphiMessage(this.message);
-}
-
-class DelphiCommand{
-
-}
-
+////////////////////////////////////////////////////////////////////////////////
 class DelphiRunner {
   final runnerPort = ReceivePort();
 
-  void run(void Function(Object message) clientListen) async {
+  void run(void Function(Object message) clientSend) async {
     final delphiConnector = await DelphiConnector.connect(runnerPort.sendPort);
 
     runnerPort.listen((message) async {
@@ -100,31 +28,13 @@ class DelphiRunner {
       } else if(message is ServerClose) {
         runnerPort.close();
       }
-      clientListen(message);
+      clientSend(message);
     });
 
     await Isolate.spawn(DelphiThread.guiThread, runnerPort.sendPort);
   }
 }
-
-class DelphiThread {
-  static void guiThread(SendPort runnerPort) async {
-    runnerPort.send(AppRun());
-    await _runApp();
-    runnerPort.send(AppClose());
-  }
-
-  static Future _runApp() async {
-    final fileName = await buildAndGetFileNameLib(r'delphi_app');
-
-    final dyCxxLib = ffi.DynamicLibrary.open(fileName);
-    final RunApp =
-        dyCxxLib.lookupFunction<C_DelphiFunc, Dart_CXXFunc>('RunApp');
-
-    RunApp();
-  }
-}
-
+////////////////////////////////////////////////////////////////////////////////
 class DelphiConnector {
   Socket? _client;
   ServerSocket? _server;
@@ -136,7 +46,7 @@ class DelphiConnector {
     runnerPort.send(ServerCreate(HOST, PORT));
 
     server.listen(
-      (client) {
+          (client) {
         thisResult._client = client;
         runnerPort.send(ClientConnect(client));
 
@@ -163,3 +73,85 @@ class DelphiConnector {
     _client?.destroy();
   }
 }
+////////////////////////////////////////////////////////////////////////////////
+// Events
+class Event {
+  @override
+  String toString() {
+    return 'Event: $runtimeType.';
+  }
+}
+
+class ServerCreate extends Event {
+  final InternetAddress host;
+  final int port;
+
+  ServerCreate(this.host, this.port);
+
+  @override
+  String toString() {
+    return 'Create server. $host:$port';
+  }
+}
+
+class AppRun extends Event {
+
+}
+
+class AppClose extends Event {
+
+}
+
+class ClientConnect extends Event {
+  final String remoteAddress;
+  final int remotePort;
+
+  ClientConnect(Socket client)
+      : remotePort = client.remotePort,
+        remoteAddress = client.remoteAddress.address;
+
+  @override
+  String toString() {
+    return 'Connect from: $remoteAddress:$remotePort';
+  }
+}
+
+class ServerClose extends Event {}
+class ClientClose extends Event {}
+
+class DelphiMessage extends Event {
+  final String message;
+
+  DelphiMessage(this.message);
+
+  @override
+  String toString() {
+    return 'DelphiMessage: ${message}';
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+class DelphiThread {
+  static void guiThread(SendPort runnerPort) async {
+    runnerPort.send(AppRun());
+    await _runApp();
+    runnerPort.send(AppClose());
+  }
+
+  static Future _runApp() async {
+    final fileName = await buildAndGetFileNameLib(r'delphi_app');
+
+    final dyCxxLib = ffi.DynamicLibrary.open(fileName);
+    final RunApp =
+        dyCxxLib.lookupFunction<C_DelphiFunc, Dart_CXXFunc>('RunApp');
+
+    RunApp();
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+typedef C_DelphiFunc = ffi.Void Function();
+typedef Dart_CXXFunc = void Function();
+
+final HOST = InternetAddress.loopbackIPv6;
+const PORT = 7654;

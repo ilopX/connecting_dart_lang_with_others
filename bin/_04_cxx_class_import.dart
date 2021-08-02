@@ -52,7 +52,6 @@ class CxxClassType extends Struct {
   external int val;
 }
 
-
 typedef C_CxxClass = Pointer<CxxClassType> Function(Int32);
 typedef Dart_CxxClass = Pointer<CxxClassType> Function(int);
 
