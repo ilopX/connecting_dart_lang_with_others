@@ -7,7 +7,7 @@ This example repository shows how to combine Dart with other languages such as C
 * Install Visual Studio 2019 >= ***16.8 Preview 3*** 
 * Add environment PATH `c:\Program Files (x86)\Microsoft Visual Studio\.. VERSION ..\MSBuild\Current\Bin`
 * CMake >= ***v3.7*** 
-* Install Embracodero RAD Studio (x64) >= ***10.3***
+* Install Embracodero RAD Studio Community (x64) >= ***10.3***
 * Add environment PATH `C:\Program Files (x86)\Embarcadero\Studio\.. VERSION ..\bin\`
 
 | Example `bin` | `native_libs` | Description |
@@ -18,3 +18,4 @@ This example repository shows how to combine Dart with other languages such as C
 | [_04_cxx_class_import.dart](https://github.com/ilopX/connecting_dart_lang_with_others/blob/main/bin/_04_cxx_class_import.dart)  | [cxx_class](https://github.com/ilopX/connecting_dart_lang_with_others/blob/main/native_libs/cxx_class/cxx_class/CxxClass.ixx)  | C++20 Module and Dart import class example |
 | [_05_delphi_lib.dart](https://github.com/ilopX/connecting_dart_lang_with_others/blob/main/bin/_05_delphi_lib.dart) | [delphi_lib](https://github.com/ilopX/connecting_dart_lang_with_others/blob/main/native_libs/delphi_lib/delphi_lib.dpr) | Delphi simple example |
 | [_06_delphi_callback.dart](https://github.com/ilopX/connecting_dart_lang_with_others/blob/main/bin/_06_delphi_callback.dart) | [delphi_callback](https://github.com/ilopX/connecting_dart_lang_with_others/blob/main/native_libs/delphi_callback/delphi_callback.dpr) | Call dart function from delphi |
+| [_07_delphi_gui.dart](https://github.com/ilopX/connecting_dart_lang_with_others/blob/main/bin/07_delphi_gui.dart) | [delphi_app](https://github.com/ilopX/connecting_dart_lang_with_others/blob/main/native_libs/delphi_app/delphi_app.dpr) | Communication between Dart and Delphi gui using sockets ![image](https://user-images.githubusercontent.com/8049534/127860273-23200653-5925-4eaa-96cd-926bbabd6d5b.png) | 
