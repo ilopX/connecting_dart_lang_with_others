@@ -1,6 +1,6 @@
 import 'package:ffi/ffi.dart';
 import 'package:ffi_interpop_c/color_printer.dart';
-import 'package:ffi_interpop_c/lib_search.dart';
+import 'package:ffi_interpop_c/lib_builder.dart';
 import 'dart:ffi';
 
 void main() async {

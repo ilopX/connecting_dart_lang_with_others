@@ -1,6 +1,6 @@
 import 'dart:ffi';
 import 'package:ffi_interpop_c/color_printer.dart';
-import 'package:ffi_interpop_c/lib_search.dart';
+import 'package:ffi_interpop_c/lib_builder.dart';
 
 void main(List<String> arguments) async {
   final my_call = await loadFunction();
