@@ -1,0 +1,6 @@
+LIBRARY math
+EXPORTS
+   sum
+   substract
+   multiply
+   multi_sum
