@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:ffi' as ffi;
 import 'dart:isolate';
-import 'package:ffi_interpop_c/lib_builder.dart';
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:connect_dart_with_others/lib_builder.dart';
 void main(List<String> arguments) async {
   final delphiRunner = DelphiRunner();
 
@@ -126,7 +126,7 @@ class DelphiMessage extends Event {
 
   @override
   String toString() {
-    return 'DelphiMessage: ${message}';
+    return 'DelphiMessage: $message';
   }
 }
 

@@ -3,8 +3,8 @@ import 'dart:ffi';
 
 import 'dart:isolate';
 
-import 'package:ffi_interpop_c/color_printer.dart';
-import 'package:ffi_interpop_c/lib_builder.dart';
+import 'package:connect_dart_with_others/color_printer.dart';
+import 'package:connect_dart_with_others/lib_builder.dart';
 
 void main() async {
   // [1]
