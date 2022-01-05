@@ -17,11 +17,11 @@ void main() async {
 }
 
 // This function should call from pascal code
-Pointer<Utf16> dartFunction(int index, Pointer<Utf16> s) {
+Pointer<Utf16> dartFunction(int index, Pointer<Utf16> delphiArgument) {
   final emoji = (index == 1)
       ? '😋'
       : '📙';
-  return emoji.toNativeUtf16();
+  return '$emoji, ${delphiArgument.toDartString()}'.toNativeUtf16();
 }
 
 class Delphi {
