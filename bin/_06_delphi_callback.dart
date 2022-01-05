@@ -17,11 +17,11 @@ void main() async {
 }
 
 // This function should call from pascal code
-Pointer<Utf8> dartFunction(int index, Pointer<Utf8> s) {
+Pointer<Utf16> dartFunction(int index, Pointer<Utf16> s) {
   final emoji = (index == 1)
       ? '😋'
       : '📙';
-  return emoji.toNativeUtf8();
+  return emoji.toNativeUtf16();
 }
 
 class Delphi {
@@ -47,7 +47,7 @@ class Delphi {
   Delphi._internals(this.applyDartFunction, this._callNative);
 
   String callNative(int arg, String text) {
-    final utfText = text.toNativeUtf8();
+    final utfText = text.toNativeUtf16();
     final result = _callNative(arg, utfText);
     return result.toDartString();
   }
@@ -56,5 +56,5 @@ class Delphi {
 typedef Delphi_ApplyMethod = Void Function(Pointer);
 typedef Dart_ApplyMethod = void Function(Pointer);
 
-typedef Delphi_CallNative = Pointer<Utf8> Function(Int32, Pointer<Utf8>);
-typedef Dart_CallNative = Pointer<Utf8> Function(int, Pointer<Utf8>);
+typedef Delphi_CallNative = Pointer<Utf16> Function(Int32, Pointer<Utf16>);
+typedef Dart_CallNative = Pointer<Utf16> Function(int, Pointer<Utf16>);
