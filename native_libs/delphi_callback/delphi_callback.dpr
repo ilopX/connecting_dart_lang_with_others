@@ -21,7 +21,8 @@ var
   DartReturn: string;
   FormatStr: string;
 begin
-  DartReturn := String(GlobalDartFunc(a, str));
+  var strAgs := PChar('Argument from delphi');
+  DartReturn := String(GlobalDartFunc(a, strAgs));
   FormatStr  := 'Pascal( ' + #13#10
     + '   CallNative(' + IntToStr(a) + ', ' + String(str) + ')' + #13#10
     + '   dartFunction() return ' + DartReturn  + #13#10
